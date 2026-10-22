@@ -13,7 +13,11 @@
     "svg-converter": "./index.js"
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.7.4",
     "commander": "^15.0.0",
+    "inquirer": "^14.2.4",
+    "inquirer-file-selector": "^2.0.0",
+    "inquirer-fuzzy-path": "^2.3.0",
     "path": "^0.12.7",
     "sharp": "^0.35.5"
   }

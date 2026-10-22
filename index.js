@@ -1,22 +1,19 @@
 #!/usr/bin/env node
-import path from "path";
 import { program } from "commander";
-import sharp from "sharp";
+import ConvertToPng from "./utils/convert-to-png.js";
+import { number } from "@inquirer/prompts";
+import FileSearchPrompt from "./utils/file-search.js";
 
 const main = async () => {
-  program
-    .version("1.0.0")
-    .description("SVG to PNG Converter")
-    .option("-c, --path <type>", "add file path to svg")
-    .action(async (options) => {
-      const inputFilePath = options.path;
-      const outputFilePath = path.parse(inputFilePath);
-      console.log(outputFilePath);
-      const data = await sharp(inputFilePath)
-        .toFormat("png")
-        .toFile(`${outputFilePath.dir}/${outputFilePath.name}.png`);
-      console.log(data);
-    });
+  program.version("1.0.0").description("My Node CLI");
+
+  program.action(async () => {
+    const inputPath = await FileSearchPrompt();
+    const width = await number({ message: "Input height (px)" });
+    const height = await number({ message: "Input width (px)" });
+    ConvertToPng(inputPath, width, height);
+  });
+
   program.parse(process.argv);
 };
 
