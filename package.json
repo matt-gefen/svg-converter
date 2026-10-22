@@ -1,0 +1,20 @@
+{
+  "name": "svg-converter",
+  "version": "1.0.0",
+  "description": "convert svg files quickly to png",
+  "license": "ISC",
+  "author": "matt-gefen",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "svg-converter": "./index.js"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "path": "^0.12.7",
+    "sharp": "^0.35.5"
+  }
+}
