@@ -2,9 +2,9 @@ import { search } from "@inquirer/prompts";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import os from "node:os";
+import { imageFileExtensions } from "./types";
 
 const root = os.homedir();
-const imgFileTypes = [".svg", ".png", ".jpg"];
 
 async function fileExists(filepath: string) {
   return fs.access(filepath).then(
@@ -61,7 +61,7 @@ export default async function FileSearchPrompt() {
           const isDotFile = entry.name.startsWith(".");
           const isEntryDirectory = entry.isDirectory();
           const ext = path.extname(entry.name).toLowerCase();
-          const isImageType = imgFileTypes.includes(ext);
+          const isImageType = imageFileExtensions.includes(ext);
           if (isDotFile || (!isEntryDirectory && !isImageType)) {
             return false;
           }

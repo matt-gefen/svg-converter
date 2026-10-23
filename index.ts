@@ -1,8 +1,8 @@
-#!/usr/bin/env node
 import { program } from "commander";
-import ConvertToPng from "./utils/convert-to-png.js";
-import { number } from "@inquirer/prompts";
-import FileSearchPrompt from "./utils/file-search.ts";
+import ConvertToPng from "./utils/convert-to-png";
+import { number, select } from "@inquirer/prompts";
+import FileSearchPrompt from "./utils/file-search";
+import { imageFileExtensions } from "./utils/types";
 
 const main = async () => {
   program.version("0.0.1").description("Image Conversion");
@@ -14,9 +14,13 @@ const main = async () => {
   // fit type?
   program.action(async () => {
     const inputPath = await FileSearchPrompt();
+    const outputType = await select({
+      message: "What output type?",
+      choices: imageFileExtensions,
+    });
     const width = await number({ message: "Input height (px)" });
     const height = await number({ message: "Input width (px)" });
-    ConvertToPng(inputPath, width, height);
+    ConvertToPng(inputPath, width || 200, height || 200);
   });
 
   program.parse(process.argv);

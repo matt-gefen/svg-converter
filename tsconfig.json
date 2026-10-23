@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2025",
+    "module": "esnext",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true
+  },
+  "include": [
+    "index.ts",
+    "utils/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

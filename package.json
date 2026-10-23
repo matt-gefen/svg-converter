@@ -5,9 +5,11 @@
   "license": "ISC",
   "author": "matt-gefen",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx index.ts",
+    "build": "tsc",
+    "start": "node dist/main.js"
   },
   "bin": {
     "svg-converter": "./index.ts"
@@ -22,6 +24,7 @@
     "sharp": "^0.35.5"
   },
   "devDependencies": {
-    "@types/node": "^26.6.5"
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
   }
 }

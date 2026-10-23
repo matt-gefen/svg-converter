@@ -1,6 +1,10 @@
 import path from "path";
 import sharp from "sharp";
-export default async function ConvertToPng(inputFilePath, width, height) {
+export default async function ConvertToPng(
+  inputFilePath: string,
+  width: number,
+  height: number,
+) {
   const outputFilePath = path.parse(inputFilePath);
   console.log(outputFilePath);
   const data = await sharp(inputFilePath)
@@ -8,9 +12,6 @@ export default async function ConvertToPng(inputFilePath, width, height) {
     .resize({
       width,
       height,
-      options: {
-        fit: "cover",
-      },
     })
     .toFile(
       `${outputFilePath.dir}/${outputFilePath.name}-${width.toString()}x${height.toString()}.png`,
