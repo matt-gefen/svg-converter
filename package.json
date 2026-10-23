@@ -1,7 +1,7 @@
 {
   "name": "svg-converter",
-  "version": "1.0.0",
-  "description": "convert svg files quickly to png",
+  "version": "0.0.1",
+  "description": "Convert images to different formats and resize",
   "license": "ISC",
   "author": "matt-gefen",
   "type": "module",
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "svg-converter": "./index.js"
+    "svg-converter": "./index.ts"
   },
   "dependencies": {
     "@inquirer/prompts": "^8.7.4",
@@ -20,5 +20,8 @@
     "inquirer-fuzzy-path": "^2.3.0",
     "path": "^0.12.7",
     "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5"
   }
 }

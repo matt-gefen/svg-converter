@@ -4,15 +4,16 @@ import path from "node:path";
 import os from "node:os";
 
 const root = os.homedir();
+const imgFileTypes = [".svg", ".png", ".jpg"];
 
-async function fileExists(filepath) {
+async function fileExists(filepath: string) {
   return fs.access(filepath).then(
     () => true,
     () => false,
   );
 }
 
-async function isDirectory(p) {
+async function isDirectory(p: string) {
   try {
     return (await fs.stat(p)).isDirectory();
   } catch {
@@ -20,7 +21,7 @@ async function isDirectory(p) {
   }
 }
 
-async function safeReaddir(dirPath) {
+async function safeReaddir(dirPath: string) {
   try {
     return await fs.readdir(dirPath, { withFileTypes: true });
   } catch {
@@ -29,7 +30,7 @@ async function safeReaddir(dirPath) {
 }
 
 // Resolve the typed term, clamped inside root
-function resolveStart(term) {
+function resolveStart(term: string) {
   const candidate = path.resolve(root, term);
   return candidate === root || candidate.startsWith(root + path.sep)
     ? candidate
@@ -37,7 +38,7 @@ function resolveStart(term) {
 }
 
 // Walk up until we find a real directory, never past root
-async function nearestExistingDir(start) {
+async function nearestExistingDir(start: string) {
   let dirPath = start;
   while (dirPath !== root && !(await isDirectory(dirPath))) {
     const parent = path.dirname(dirPath);
@@ -48,14 +49,27 @@ async function nearestExistingDir(start) {
 }
 
 export default async function FileSearchPrompt() {
+  console.log("home", root);
   return search({
-    message: "Select a file",
+    message: "Select an image file",
     source: async (term = "") => {
       const dirPath = await nearestExistingDir(resolveStart(term));
       const entries = await safeReaddir(dirPath);
       const needle = term.toLowerCase();
-
       return entries
+        .filter((entry) => {
+          const isDotFile = entry.name.startsWith(".");
+          const isEntryDirectory = entry.isDirectory();
+          const ext = path.extname(entry.name).toLowerCase();
+          const isImageType = imgFileTypes.includes(ext);
+          if (isDotFile || (!isEntryDirectory && !isImageType)) {
+            return false;
+          }
+          return path
+            .relative(root, path.join(dirPath, entry.name))
+            .toLowerCase()
+            .includes(needle);
+        })
         .toSorted((a, b) =>
           a.isDirectory() === b.isDirectory()
             ? a.name.localeCompare(b.name)
@@ -69,11 +83,6 @@ export default async function FileSearchPrompt() {
             (entry.isDirectory() ? "/" : ""),
           value: path.join(dirPath, entry.name),
         }))
-        .filter(
-          ({ name }) =>
-            name.toLowerCase().includes(needle) &&
-            !name.toLowerCase().startsWith("."),
-        )
         .slice(0, 250);
     },
     validate: async (selected) => {

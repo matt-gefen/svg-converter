@@ -2,11 +2,16 @@
 import { program } from "commander";
 import ConvertToPng from "./utils/convert-to-png.js";
 import { number } from "@inquirer/prompts";
-import FileSearchPrompt from "./utils/file-search.js";
+import FileSearchPrompt from "./utils/file-search.ts";
 
 const main = async () => {
-  program.version("1.0.0").description("My Node CLI");
-
+  program.version("0.0.1").description("Image Conversion");
+  // input file
+  // output type
+  // output file name (will be saved to the same directory as original)
+  // resize?
+  // if so what width and height
+  // fit type?
   program.action(async () => {
     const inputPath = await FileSearchPrompt();
     const width = await number({ message: "Input height (px)" });
