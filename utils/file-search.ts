@@ -2,7 +2,7 @@ import { search } from "@inquirer/prompts";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { imageFileExtensions } from "./types";
+import { imageFileExtensions } from "./types.js";
 
 const root = os.homedir();
 
